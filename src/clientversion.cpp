@@ -10,10 +10,10 @@
 
 /**
  * Name of client reported in the 'version' message. Report the same name
- * for both mineromd and minerom-qt, to make it harder for attackers to
+ * for both gincoind and gincoin-qt, to make it harder for attackers to
  * target servers or GUI users specifically.
  */
-const std::string CLIENT_NAME("MinerOM Core");
+const std::string CLIENT_NAME("Gincoin Core");
 
 /**
  * Client version number

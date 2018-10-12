@@ -5,7 +5,7 @@
 #include "util.h"
 
 #include "support/allocators/secure.h"
-#include "test/test_minerom.h"
+#include "test/test_gincoin.h"
 
 #include <boost/test/unit_test.hpp>
 

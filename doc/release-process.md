@@ -1,23 +1,19 @@
 Release Process
 ====================
 
-* Update translations, see [translation_process.md](https://github.com/worldmint/MinerOM/blob/master/doc/translation_process.md#syncing-with-transifex)
 * Update hardcoded [seeds](/contrib/seeds)
 
 * * *
 
-###First time / New builders
+### First time / New builders
 Check out the source code in the following directory hierarchy.
 
 	cd /path/to/your/toplevel/build
-	git clone https://github.com/worldmint/gitian.sigs.git
-	git clone https://github.com/worldmint/MinerOM-detached-sigs.git
-	git clone https://github.com/devrandom/gitian-builder.git
-	git clone https://github.com/worldmint/MinerOM.git
+	git clone https://github.com/gincoin-dev/gincoin-core.git
 
-###MinerOM Core maintainers/release engineers, update (commit) version in sources
+### Gincoin Core maintainers/release engineers, update (commit) version in sources
 
-	pushd ./minerom
+	pushd ./gincoin
 	contrib/verifysfbinaries/verify.sh
 	configure.ac
 	doc/README*
@@ -36,11 +32,11 @@ Check out the source code in the following directory hierarchy.
 
 * * *
 
-###Setup and perform Gitian builds
+### Setup and perform Gitian builds
 
  Setup Gitian descriptors:
 
-	pushd ./minerom
+	pushd ./gincoin
 	export SIGNER=(your Gitian key, ie bluematt, sipa, etc)
 	export VERSION=(new version, e.g. 0.8.0)
 	git fetch
@@ -58,7 +54,7 @@ Check out the source code in the following directory hierarchy.
 	pushd ./gitian-builder
 	git pull
 
-###Fetch and create inputs: (first time, or when dependency versions change)
+### Fetch and create inputs: (first time, or when dependency versions change)
 
 	mkdir -p inputs
 	wget -P inputs https://bitcoincore.org/cfields/osslsigncode-Backports-to-1.7.1.patch
@@ -72,60 +68,60 @@ Check out the source code in the following directory hierarchy.
 
 	tar -C /Volumes/Xcode/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/ -czf MacOSX10.9.sdk.tar.gz MacOSX10.9.sdk
 
-###Optional: Seed the Gitian sources cache and offline git repositories
+### Optional: Seed the Gitian sources cache and offline git repositories
 
 By default, Gitian will fetch source files as needed. To cache them ahead of time:
 
-	make -C ../minerom/depends download SOURCES_PATH=`pwd`/cache/common
+	make -C ../gincoin/depends download SOURCES_PATH=`pwd`/cache/common
 
 Only missing files will be fetched, so this is safe to re-run for each build.
 
 NOTE: Offline builds must use the --url flag to ensure Gitian fetches only from local URLs. For example:
 ```
-./bin/gbuild --url minerom=/path/to/minerom,signature=/path/to/sigs {rest of arguments}
+./bin/gbuild --url gincoin=/path/to/gincoin,signature=/path/to/sigs {rest of arguments}
 ```
 The gbuild invocations below <b>DO NOT DO THIS</b> by default.
 
-###Build and sign MinerOM Core for Linux, Windows, and OS X:
+### Build and sign Gincoin Core for Linux, Windows, and OS X:
 
-	./bin/gbuild --commit minerom=v${VERSION} ../minerom/contrib/gitian-descriptors/gitian-linux.yml
-	./bin/gsign --signer $SIGNER --release ${VERSION}-linux --destination ../gitian.sigs/ ../minerom/contrib/gitian-descriptors/gitian-linux.yml
-	mv build/out/minerom-*.tar.gz build/out/src/minerom-*.tar.gz ../
+	./bin/gbuild --commit gincoin=v${VERSION} ../gincoin/contrib/gitian-descriptors/gitian-linux.yml
+	./bin/gsign --signer $SIGNER --release ${VERSION}-linux --destination ../gitian.sigs/ ../gincoin/contrib/gitian-descriptors/gitian-linux.yml
+	mv build/out/gincoin-*.tar.gz build/out/src/gincoin-*.tar.gz ../
 
-	./bin/gbuild --commit minerom=v${VERSION} ../minerom/contrib/gitian-descriptors/gitian-win.yml
-	./bin/gsign --signer $SIGNER --release ${VERSION}-win-unsigned --destination ../gitian.sigs/ ../minerom/contrib/gitian-descriptors/gitian-win.yml
-	mv build/out/minerom-*-win-unsigned.tar.gz inputs/minerom-win-unsigned.tar.gz
-	mv build/out/minerom-*.zip build/out/minerom-*.exe ../
+	./bin/gbuild --commit gincoin=v${VERSION} ../gincoin/contrib/gitian-descriptors/gitian-win.yml
+	./bin/gsign --signer $SIGNER --release ${VERSION}-win-unsigned --destination ../gitian.sigs/ ../gincoin/contrib/gitian-descriptors/gitian-win.yml
+	mv build/out/gincoin-*-win-unsigned.tar.gz inputs/gincoin-win-unsigned.tar.gz
+	mv build/out/gincoin-*.zip build/out/gincoin-*.exe ../
 
-	./bin/gbuild --commit minerom=v${VERSION} ../minerom/contrib/gitian-descriptors/gitian-osx.yml
-	./bin/gsign --signer $SIGNER --release ${VERSION}-osx-unsigned --destination ../gitian.sigs/ ../minerom/contrib/gitian-descriptors/gitian-osx.yml
-	mv build/out/minerom-*-osx-unsigned.tar.gz inputs/minerom-osx-unsigned.tar.gz
-	mv build/out/minerom-*.tar.gz build/out/minerom-*.dmg ../
+	./bin/gbuild --commit gincoin=v${VERSION} ../gincoin/contrib/gitian-descriptors/gitian-osx.yml
+	./bin/gsign --signer $SIGNER --release ${VERSION}-osx-unsigned --destination ../gitian.sigs/ ../gincoin/contrib/gitian-descriptors/gitian-osx.yml
+	mv build/out/gincoin-*-osx-unsigned.tar.gz inputs/gincoin-osx-unsigned.tar.gz
+	mv build/out/gincoin-*.tar.gz build/out/gincoin-*.dmg ../
 	popd
 
   Build output expected:
 
-  1. source tarball (minerom-${VERSION}.tar.gz)
-  2. linux 32-bit and 64-bit dist tarballs (minerom-${VERSION}-linux[32|64].tar.gz)
-  3. windows 32-bit and 64-bit unsigned installers and dist zips (minerom-${VERSION}-win[32|64]-setup-unsigned.exe, minerom-${VERSION}-win[32|64].zip)
-  4. OS X unsigned installer and dist tarball (minerom-${VERSION}-osx-unsigned.dmg, minerom-${VERSION}-osx64.tar.gz)
+  1. source tarball (gincoin-${VERSION}.tar.gz)
+  2. linux 32-bit and 64-bit dist tarballs (gincoin-${VERSION}-linux[32|64].tar.gz)
+  3. windows 32-bit and 64-bit unsigned installers and dist zips (gincoin-${VERSION}-win[32|64]-setup-unsigned.exe, gincoin-${VERSION}-win[32|64].zip)
+  4. OS X unsigned installer and dist tarball (gincoin-${VERSION}-osx-unsigned.dmg, gincoin-${VERSION}-osx64.tar.gz)
   5. Gitian signatures (in gitian.sigs/${VERSION}-<linux|{win,osx}-unsigned>/(your Gitian key)/
 
-###Verify other gitian builders signatures to your own. (Optional)
+### Verify other gitian builders signatures to your own. (Optional)
 
   Add other gitian builders keys to your gpg keyring
 
-	gpg --import ../minerom/contrib/gitian-downloader/*.pgp
+	gpg --import ../gincoin/contrib/gitian-downloader/*.pgp
 
   Verify the signatures
 
-	./bin/gverify -v -d ../gitian.sigs/ -r ${VERSION}-linux ../minerom/contrib/gitian-descriptors/gitian-linux.yml
-	./bin/gverify -v -d ../gitian.sigs/ -r ${VERSION}-win-unsigned ../minerom/contrib/gitian-descriptors/gitian-win.yml
-	./bin/gverify -v -d ../gitian.sigs/ -r ${VERSION}-osx-unsigned ../minerom/contrib/gitian-descriptors/gitian-osx.yml
+	./bin/gverify -v -d ../gitian.sigs/ -r ${VERSION}-linux ../gincoin/contrib/gitian-descriptors/gitian-linux.yml
+	./bin/gverify -v -d ../gitian.sigs/ -r ${VERSION}-win-unsigned ../gincoin/contrib/gitian-descriptors/gitian-win.yml
+	./bin/gverify -v -d ../gitian.sigs/ -r ${VERSION}-osx-unsigned ../gincoin/contrib/gitian-descriptors/gitian-osx.yml
 
 	popd
 
-###Next steps:
+### Next steps:
 
 Commit your signature to gitian.sigs:
 
@@ -139,25 +135,25 @@ Commit your signature to gitian.sigs:
 
   Wait for Windows/OS X detached signatures:
 	Once the Windows/OS X builds each have 3 matching signatures, they will be signed with their respective release keys.
-	Detached signatures will then be committed to the [minerom-detached-sigs](https://github.com/worldmint/MinerOM-detached-sigs) repository, which can be combined with the unsigned apps to create signed binaries.
+	Detached signatures will then be committed to the [gincoin-detached-sigs](https://github.com/gincoin-devpay/gincoin-detached-sigs) repository, which can be combined with the unsigned apps to create signed binaries.
 
   Create (and optionally verify) the signed OS X binary:
 
 	pushd ./gitian-builder
-	./bin/gbuild -i --commit signature=v${VERSION} ../minerom/contrib/gitian-descriptors/gitian-osx-signer.yml
-	./bin/gsign --signer $SIGNER --release ${VERSION}-osx-signed --destination ../gitian.sigs/ ../minerom/contrib/gitian-descriptors/gitian-osx-signer.yml
-	./bin/gverify -v -d ../gitian.sigs/ -r ${VERSION}-osx-signed ../minerom/contrib/gitian-descriptors/gitian-osx-signer.yml
-	mv build/out/minerom-osx-signed.dmg ../minerom-${VERSION}-osx.dmg
+	./bin/gbuild -i --commit signature=v${VERSION} ../gincoin/contrib/gitian-descriptors/gitian-osx-signer.yml
+	./bin/gsign --signer $SIGNER --release ${VERSION}-osx-signed --destination ../gitian.sigs/ ../gincoin/contrib/gitian-descriptors/gitian-osx-signer.yml
+	./bin/gverify -v -d ../gitian.sigs/ -r ${VERSION}-osx-signed ../gincoin/contrib/gitian-descriptors/gitian-osx-signer.yml
+	mv build/out/gincoin-osx-signed.dmg ../gincoin-${VERSION}-osx.dmg
 	popd
 
   Create (and optionally verify) the signed Windows binaries:
 
 	pushd ./gitian-builder
-	./bin/gbuild -i --commit signature=v${VERSION} ../minerom/contrib/gitian-descriptors/gitian-win-signer.yml
-	./bin/gsign --signer $SIGNER --release ${VERSION}-win-signed --destination ../gitian.sigs/ ../minerom/contrib/gitian-descriptors/gitian-win-signer.yml
-	./bin/gverify -v -d ../gitian.sigs/ -r ${VERSION}-win-signed ../minerom/contrib/gitian-descriptors/gitian-win-signer.yml
-	mv build/out/minerom-*win64-setup.exe ../minerom-${VERSION}-win64-setup.exe
-	mv build/out/minerom-*win32-setup.exe ../minerom-${VERSION}-win32-setup.exe
+	./bin/gbuild -i --commit signature=v${VERSION} ../gincoin/contrib/gitian-descriptors/gitian-win-signer.yml
+	./bin/gsign --signer $SIGNER --release ${VERSION}-win-signed --destination ../gitian.sigs/ ../gincoin/contrib/gitian-descriptors/gitian-win-signer.yml
+	./bin/gverify -v -d ../gitian.sigs/ -r ${VERSION}-win-signed ../gincoin/contrib/gitian-descriptors/gitian-win-signer.yml
+	mv build/out/gincoin-*win64-setup.exe ../gincoin-${VERSION}-win64-setup.exe
+	mv build/out/gincoin-*win32-setup.exe ../gincoin-${VERSION}-win32-setup.exe
 	popd
 
 Commit your signature for the signed OS X/Windows binaries:
@@ -169,35 +165,3 @@ Commit your signature for the signed OS X/Windows binaries:
 	git push  # Assuming you can push to the gitian.sigs tree
 	popd
 
--------------------------------------------------------------------------
-
-### After 3 or more people have gitian-built and their results match:
-
-- Create `SHA256SUMS.asc` for the builds, and GPG-sign it:
-```bash
-sha256sum * > SHA256SUMS
-gpg --digest-algo sha256 --clearsign SHA256SUMS # outputs SHA256SUMS.asc
-rm SHA256SUMS
-```
-(the digest algorithm is forced to sha256 to avoid confusion of the `Hash:` header that GPG adds with the SHA256 used for the files)
-Note: check that SHA256SUMS itself doesn't end up in SHA256SUMS, which is a spurious/nonsensical entry.
-
-- Upload zips and installers, as well as `SHA256SUMS.asc` from last step, to the minerom.org server
-
-- Update minerom.org
-
-- Announce the release:
-
-  - Release on MinerOM forum: https://www.minerom.org/forum/topic/official-announcements.54/
-
-  - MinerOM-development mailing list
-
-  - Update title of #mineromcoin on Freenode IRC
-
-  - Optionally reddit /r/MinerOMpay, ... but this will usually sort out itself
-
-- Notify flare so that he can start building [the PPAs](https://launchpad.net/~minerom.org/+archive/ubuntu/minerom)
-
-- Add release notes for the new version to the directory `doc/release-notes` in git master
-
-- Celebrate

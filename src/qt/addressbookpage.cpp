@@ -1,11 +1,11 @@
 // Copyright (c) 2011-2015 The Bitcoin Core developers
 // Copyright (c) 2014-2017 The Dash Core developers
-// Copyright (c) 2017-2018 The MinerOM Core developers
+// Copyright (c) 2018 The Gincoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #if defined(HAVE_CONFIG_H)
-#include "config/minerom-config.h"
+#include "config/gincoin-config.h"
 #endif
 
 #include "addressbookpage.h"
@@ -69,11 +69,11 @@ AddressBookPage::AddressBookPage(const PlatformStyle *platformStyle, Mode mode, 
     switch(tab)
     {
     case SendingTab:
-        ui->labelExplanation->setText(tr("These are your MinerOM addresses for sending payments. Always check the amount and the receiving address before sending coins."));
+        ui->labelExplanation->setText(tr("These are your Gincoin addresses for sending payments. Always check the amount and the receiving address before sending coins."));
         ui->deleteAddress->setVisible(true);
         break;
     case ReceivingTab:
-        ui->labelExplanation->setText(tr("These are your MinerOM addresses for receiving payments. It is recommended to use a new receiving address for each transaction."));
+        ui->labelExplanation->setText(tr("These are your Gincoin addresses for receiving payments. It is recommended to use a new receiving address for each transaction."));
         ui->deleteAddress->setVisible(false);
         break;
     }
@@ -85,7 +85,7 @@ AddressBookPage::AddressBookPage(const PlatformStyle *platformStyle, Mode mode, 
     deleteAction = new QAction(ui->deleteAddress->text(), this);
 
     // Build context menu
-    contextMenu = new QMenu();
+    contextMenu = new QMenu(this);
     contextMenu->addAction(copyAddressAction);
     contextMenu->addAction(copyLabelAction);
     contextMenu->addAction(editAction);

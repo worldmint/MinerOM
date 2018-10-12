@@ -5,7 +5,7 @@
 #include "chain.h"
 #include "random.h"
 #include "util.h"
-#include "test/test_minerom.h"
+#include "test/test_gincoin.h"
 
 #include <vector>
 

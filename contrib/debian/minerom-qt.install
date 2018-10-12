@@ -1,6 +1,0 @@
-usr/local/bin/minerom-qt usr/bin
-share/pixmaps/minerom32.xpm usr/share/pixmaps
-share/pixmaps/minerom16.xpm usr/share/pixmaps
-share/pixmaps/minerom128.png usr/share/pixmaps
-debian/minerom-qt.desktop usr/share/applications
-debian/minerom-qt.protocol usr/share/kde4/services/

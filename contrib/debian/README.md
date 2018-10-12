@@ -1,21 +1,21 @@
 
 Debian
 ====================
-This directory contains files used to package mineromd/minerom-qt
-for Debian-based Linux systems. If you compile mineromd/minerom-qt yourself, there are some useful files here.
+This directory contains files used to package gincoind/gincoin-qt
+for Debian-based Linux systems. If you compile gincoind/gincoin-qt yourself, there are some useful files here.
 
-## minerom: URI support ##
+## gincoin: URI support ##
 
 
-minerom-qt.desktop  (Gnome / Open Desktop)
+gincoin-qt.desktop  (Gnome / Open Desktop)
 To install:
 
-	sudo desktop-file-install minerom-qt.desktop
+	sudo desktop-file-install gincoin-qt.desktop
 	sudo update-desktop-database
 
 If you build yourself, you will either need to modify the paths in
-the .desktop file or copy or symlink your minerom-qt binary to `/usr/bin`
-and the `../../share/pixmaps/minerom128.png` to `/usr/share/pixmaps`
+the .desktop file or copy or symlink your gincoin-qt binary to `/usr/bin`
+and the `../../share/pixmaps/gincoin128.png` to `/usr/share/pixmaps`
 
-minerom-qt.protocol (KDE)
+gincoin-qt.protocol (KDE)
 

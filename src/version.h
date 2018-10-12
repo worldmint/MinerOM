@@ -1,6 +1,6 @@
 // Copyright (c) 2012-2014 The Bitcoin Core developers
 // Copyright (c) 2014-2017 The Dash Core developers
-// Copyright (c) 2017-2018 The MinerOM Core developers
+// Copyright (c) 2018 The Gincoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -41,5 +41,8 @@ static const int NO_BLOOM_VERSION = 70201;
 
 //! "sendheaders" command and announcing blocks with headers starts with this version
 static const int SENDHEADERS_VERSION = 70201;
+
+//! DIP0001 was activated in this version
+static const int DIP0001_PROTOCOL_VERSION = 70208;
 
 #endif // BITCOIN_VERSION_H

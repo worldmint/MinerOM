@@ -5,11 +5,20 @@ AM_CXXFLAGS = $(HARDENED_CXXFLAGS)
 AM_CPPFLAGS = $(HARDENED_CPPFLAGS)
 EXTRA_LIBRARIES =
 
+if EMBEDDED_UNIVALUE
+LIBUNIVALUE = univalue/libunivalue.la
+
+$(LIBUNIVALUE): $(wildcard univalue/lib/*) $(wildcard univalue/include/*)
+	$(AM_V_at)$(MAKE) $(AM_MAKEFLAGS) -C $(@D) $(@F)
+else
+LIBUNIVALUE = $(UNIVALUE_LIBS)
+endif
+
 BITCOIN_CONFIG_INCLUDES=-I$(builddir)/config
 BITCOIN_INCLUDES=-I$(builddir) -I$(builddir)/obj $(BOOST_CPPFLAGS) $(LEVELDB_CPPFLAGS) $(CRYPTO_CFLAGS) $(SSL_CFLAGS)
 
 BITCOIN_INCLUDES += -I$(srcdir)/secp256k1/include
-BITCOIN_INCLUDES += -I$(srcdir)/univalue/include
+BITCOIN_INCLUDES += $(UNIVALUE_CFLAGS)
 
 LIBBITCOIN_SERVER=libbitcoin_server.a
 LIBBITCOIN_WALLET=libbitcoin_wallet.a
@@ -19,12 +28,8 @@ LIBBITCOIN_UTIL=libbitcoin_util.a
 LIBBITCOIN_CRYPTO=crypto/libbitcoin_crypto.a
 LIBBITCOINQT=qt/libbitcoinqt.a
 LIBSECP256K1=secp256k1/libsecp256k1.la
-LIBUNIVALUE=univalue/libunivalue.la
 
 $(LIBSECP256K1): $(wildcard secp256k1/src/*) $(wildcard secp256k1/include/*)
-	$(AM_V_at)$(MAKE) $(AM_MAKEFLAGS) -C $(@D) $(@F)
-
-$(LIBUNIVALUE): $(wildcard univalue/lib/*) $(wildcard univalue/include/*)
 	$(AM_V_at)$(MAKE) $(AM_MAKEFLAGS) -C $(@D) $(@F)
 
 # Make is not made aware of per-object dependencies to avoid limiting building parallelization
@@ -44,8 +49,8 @@ EXTRA_LIBRARIES += libbitcoin_zmq.a
 endif
 
 if BUILD_BITCOIN_LIBS
-lib_LTLIBRARIES = libbitcoinconsensus.la
-LIBBITCOIN_CONSENSUS=libbitcoinconsensus.la
+lib_LTLIBRARIES = libgincoinconsensus.la
+LIBBITCOIN_CONSENSUS=libgincoinconsensus.la
 else
 LIBBITCOIN_CONSENSUS=
 endif
@@ -55,16 +60,17 @@ TESTS =
 BENCHMARKS =
 
 if BUILD_BITCOIND
-  bin_PROGRAMS += mineromd
+  bin_PROGRAMS += gincoind
 endif
 
 if BUILD_BITCOIN_UTILS
-  bin_PROGRAMS += minerom-cli minerom-tx
+  bin_PROGRAMS += gincoin-cli gincoin-tx
 endif
 
 .PHONY: FORCE check-symbols check-security
-# minerom core #
+# gincoin core #
 BITCOIN_CORE_H = \
+  addrdb.h \
   activemasternode.h \
   addressindex.h \
   spentindex.h \
@@ -73,6 +79,8 @@ BITCOIN_CORE_H = \
   amount.h \
   arith_uint256.h \
   base58.h \
+  bip39.h \
+  bip39_english.h \
   bloom.h \
   cachemap.h \
   cachemultimap.h \
@@ -96,17 +104,21 @@ BITCOIN_CORE_H = \
   consensus/validation.h \
   core_io.h \
   core_memusage.h \
-  darksend.h \
+  privatesend.h \
+  privatesend-client.h \
+  privatesend-server.h \
+  privatesend-util.h \
   dsnotificationinterface.h \
-  darksend-relay.h \
   governance.h \
   governance-classes.h \
   governance-exceptions.h \
   governance-object.h \
+  governance-validators.h \
   governance-vote.h \
   governance-votedb.h \
   flat-database.h \
   hash.h \
+  hdchain.h \
   httprpc.h \
   httpserver.h \
   init.h \
@@ -116,7 +128,6 @@ BITCOIN_CORE_H = \
   keystore.h \
   dbwrapper.h \
   limitedmap.h \
-  main.h \
   masternode.h \
   masternode-payments.h \
   masternode-sync.h \
@@ -124,8 +135,11 @@ BITCOIN_CORE_H = \
   masternodeconfig.h \
   memusage.h \
   merkleblock.h \
+  messagesigner.h \
   miner.h \
   net.h \
+  net_processing.h \
+  netaddress.h \
   netbase.h \
   netfulfilledman.h \
   noui.h \
@@ -140,9 +154,9 @@ BITCOIN_CORE_H = \
   pubkey.h \
   random.h \
   reverselock.h \
-  rpcclient.h \
-  rpcprotocol.h \
-  rpcserver.h \
+  rpc/client.h \
+  rpc/protocol.h \
+  rpc/server.h \
   scheduler.h \
   script/interpreter.h \
   script/script.h \
@@ -159,6 +173,7 @@ BITCOIN_CORE_H = \
   support/pagelocker.h \
   sync.h \
   threadsafety.h \
+  threadinterrupt.h \
   timedata.h \
   tinyformat.h \
   torcontrol.h \
@@ -171,6 +186,7 @@ BITCOIN_CORE_H = \
   utilmoneystr.h \
   utilstrencodings.h \
   utiltime.h \
+  validation.h \
   validationinterface.h \
   version.h \
   versionbits.h \
@@ -191,48 +207,63 @@ obj/build.h: FORCE
 	  $(abs_top_srcdir)
 libbitcoin_util_a-clientversion.$(OBJEXT): obj/build.h
 
-# server: shared between mineromd and minerom-qt
+# server: shared between gincoind and gincoin-qt
 libbitcoin_server_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) $(MINIUPNPC_CPPFLAGS) $(EVENT_CFLAGS) $(EVENT_PTHREADS_CFLAGS)
 libbitcoin_server_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libbitcoin_server_a_SOURCES = \
+  activemasternode.cpp \
   addrman.cpp \
+  addrdb.cpp \
   alert.cpp \
   bloom.cpp \
   chain.cpp \
   checkpoints.cpp \
+  dsnotificationinterface.cpp \
   httprpc.cpp \
   httpserver.cpp \
   init.cpp \
+  instantx.cpp \
   dbwrapper.cpp \
   governance.cpp \
   governance-classes.cpp \
   governance-object.cpp \
+  governance-validators.cpp \
   governance-vote.cpp \
   governance-votedb.cpp \
-  main.cpp \
+  masternode.cpp \
+  masternode-payments.cpp \
+  masternode-sync.cpp \
+  masternodeconfig.cpp \
+  masternodeman.cpp \
   merkleblock.cpp \
+  messagesigner.cpp \
   miner.cpp \
   net.cpp \
   netfulfilledman.cpp \
+  net_processing.cpp \
   noui.cpp \
   policy/fees.cpp \
   policy/policy.cpp \
   pow.cpp \
+  privatesend.cpp \
+  privatesend-server.cpp \
   rest.cpp \
-  rpcblockchain.cpp \
-  rpcmasternode.cpp \
-  rpcgovernance.cpp \
-  rpcmining.cpp \
-  rpcmisc.cpp \
-  rpcnet.cpp \
-  rpcrawtransaction.cpp \
-  rpcserver.cpp \
+  rpc/blockchain.cpp \
+  rpc/masternode.cpp \
+  rpc/governance.cpp \
+  rpc/mining.cpp \
+  rpc/misc.cpp \
+  rpc/net.cpp \
+  rpc/rawtransaction.cpp \
+  rpc/server.cpp \
   script/sigcache.cpp \
   sendalert.cpp \
+  spork.cpp \
   timedata.cpp \
   torcontrol.cpp \
   txdb.cpp \
   txmempool.cpp \
+  validation.cpp \
   validationinterface.cpp \
   versionbits.cpp \
   $(BITCOIN_CORE_H)
@@ -249,22 +280,14 @@ libbitcoin_zmq_a_SOURCES = \
 endif
 
 
-# wallet: shared between mineromd and minerom-qt, but only linked
+# wallet: shared between gincoind and gincoin-qt, but only linked
 # when wallet enabled
 libbitcoin_wallet_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
 libbitcoin_wallet_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libbitcoin_wallet_a_SOURCES = \
-  activemasternode.cpp \
-  darksend.cpp \
-  dsnotificationinterface.cpp \
-  darksend-relay.cpp \
-  instantx.cpp \
-  masternode.cpp \
-  masternode-payments.cpp \
-  masternode-sync.cpp \
-  masternodeconfig.cpp \
-  masternodeman.cpp \
   keepass.cpp \
+  privatesend-client.cpp \
+  privatesend-util.cpp \
   wallet/crypter.cpp \
   wallet/db.cpp \
   wallet/rpcdump.cpp \
@@ -286,6 +309,16 @@ crypto_libbitcoin_crypto_a_SOURCES = \
   crypto/hmac_sha512.h \
   crypto/ripemd160.cpp \
   crypto/aes_helper.c \
+  crypto/ripemd160.h \
+  crypto/sha1.cpp \
+  crypto/sha1.h \
+  crypto/sha256.cpp \
+  crypto/sha256.h \
+  crypto/sha512.cpp \
+  crypto/sha512.h
+
+# x11
+crypto_libbitcoin_crypto_a_SOURCES += \
   crypto/blake.c \
   crypto/bmw.c \
   crypto/cubehash.c \
@@ -297,14 +330,6 @@ crypto_libbitcoin_crypto_a_SOURCES = \
   crypto/shavite.c \
   crypto/simd.c \
   crypto/skein.c \
-  crypto/neoscrypt.c \
-  crypto/neoscrypt.h \
-  crypto/ripemd160.h \
-  crypto/sha1.cpp \
-  crypto/sha1.h \
-  crypto/sha256.cpp \
-  crypto/sha256.h \
-  crypto/sha512.h \
   crypto/sph_blake.h \
   crypto/sph_bmw.h \
   crypto/sph_cubehash.h \
@@ -316,22 +341,32 @@ crypto_libbitcoin_crypto_a_SOURCES = \
   crypto/sph_shavite.h \
   crypto/sph_simd.h \
   crypto/sph_skein.h \
-  crypto/sph_types.h \
-  crypto/sha512.cpp \
-  crypto/sha512.h\
-	crypto/Lyra2.h \
-  crypto/Lyra2.c \
- 	crypto/Lyra2Z.h \
-	crypto/Lyra2Z.c \
-	crypto/Sponge.c \
-  crypto/Sponge.h
-# common: shared between mineromd, and minerom-qt and non-server tools
+  crypto/sph_types.h
+
+# neoscrypt
+crypto_libbitcoin_crypto_a_SOURCES += \
+  crypto/neoscrypt.c \
+  crypto/neoscrypt.h
+
+# lyra2z
+crypto_libbitcoin_crypto_a_SOURCES += \
+  crypto/Lyra2Z/Lyra2.c \
+  crypto/Lyra2Z/Lyra2.h \
+  crypto/Lyra2Z/Lyra2Z.c \
+  crypto/Lyra2Z/Lyra2Z.h \
+  crypto/Lyra2Z/Sponge.c \
+  crypto/Lyra2Z/Sponge.h \
+  crypto/Lyra2Z/sph_blake.h \
+  crypto/Lyra2Z/sph_types.h
+
+# common: shared between gincoind, and gincoin-qt and non-server tools
 libbitcoin_common_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
 libbitcoin_common_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libbitcoin_common_a_SOURCES = \
   amount.cpp \
   arith_uint256.cpp \
   base58.cpp \
+  bip39.cpp \
   chainparams.cpp \
   coins.cpp \
   compressor.cpp \
@@ -339,8 +374,10 @@ libbitcoin_common_a_SOURCES = \
   core_read.cpp \
   core_write.cpp \
   hash.cpp \
+  hdchain.cpp \
   key.cpp \
   keystore.cpp \
+  netaddress.cpp \
   netbase.cpp \
   primitives/block.cpp \
   primitives/transaction.cpp \
@@ -352,7 +389,6 @@ libbitcoin_common_a_SOURCES = \
   script/script_error.cpp \
   script/sign.cpp \
   script/standard.cpp \
-  spork.cpp \
   $(BITCOIN_CORE_H)
 
 # util: shared between all executables.
@@ -368,10 +404,11 @@ libbitcoin_util_a_SOURCES = \
   compat/glibcxx_sanity.cpp \
   compat/strnlen.cpp \
   random.cpp \
-  rpcprotocol.cpp \
+  rpc/protocol.cpp \
   support/cleanse.cpp \
   sync.cpp \
   uint256.cpp \
+  threadinterrupt.cpp \
   util.cpp \
   utilmoneystr.cpp \
   utilstrencodings.cpp \
@@ -382,27 +419,27 @@ if GLIBC_BACK_COMPAT
 libbitcoin_util_a_SOURCES += compat/glibc_compat.cpp
 endif
 
-# cli: shared between minerom-cli and minerom-qt
+# cli: shared between gincoin-cli and gincoin-qt
 libbitcoin_cli_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
 libbitcoin_cli_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libbitcoin_cli_a_SOURCES = \
-  rpcclient.cpp \
+  rpc/client.cpp \
   $(BITCOIN_CORE_H)
 
 nodist_libbitcoin_util_a_SOURCES = $(srcdir)/obj/build.h
 #
 
 # bitcoind binary #
-mineromd_SOURCES = mineromd.cpp
-mineromd_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
-mineromd_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-mineromd_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
+gincoind_SOURCES = gincoind.cpp
+gincoind_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
+gincoind_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+gincoind_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
 
 if TARGET_WINDOWS
-mineromd_SOURCES += mineromd-res.rc
+gincoind_SOURCES += gincoind-res.rc
 endif
 
-mineromd_LDADD = \
+gincoind_LDADD = \
   $(LIBBITCOIN_SERVER) \
   $(LIBBITCOIN_COMMON) \
   $(LIBUNIVALUE) \
@@ -413,56 +450,56 @@ mineromd_LDADD = \
   $(LIBSECP256K1)
 
 if ENABLE_ZMQ
-mineromd_LDADD += $(LIBBITCOIN_ZMQ) $(ZMQ_LIBS)
+gincoind_LDADD += $(LIBBITCOIN_ZMQ) $(ZMQ_LIBS)
 endif
 
 if ENABLE_WALLET
-mineromd_LDADD += libbitcoin_wallet.a
+gincoind_LDADD += libbitcoin_wallet.a
 endif
 
-mineromd_LDADD += $(BOOST_LIBS) $(BDB_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS) $(MINIUPNPC_LIBS) $(EVENT_PTHREADS_LIBS) $(EVENT_LIBS)
+gincoind_LDADD += $(BOOST_LIBS) $(BDB_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS) $(MINIUPNPC_LIBS) $(EVENT_PTHREADS_LIBS) $(EVENT_LIBS)
 
-# minerom-cli binary #
-minerom_cli_SOURCES = minerom-cli.cpp
-minerom_cli_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) $(EVENT_CFLAGS)
-minerom_cli_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-minerom_cli_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
+# gincoin-cli binary #
+gincoin_cli_SOURCES = gincoin-cli.cpp
+gincoin_cli_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) $(EVENT_CFLAGS)
+gincoin_cli_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+gincoin_cli_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
 
 if TARGET_WINDOWS
-minerom_cli_SOURCES += minerom-cli-res.rc
+gincoin_cli_SOURCES += gincoin-cli-res.rc
 endif
 
-minerom_cli_LDADD = \
+gincoin_cli_LDADD = \
   $(LIBBITCOIN_CLI) \
   $(LIBUNIVALUE) \
   $(LIBBITCOIN_UTIL)
-minerom_cli_LDADD += $(BOOST_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS) $(EVENT_LIBS)
+gincoin_cli_LDADD += $(BOOST_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS) $(EVENT_LIBS)
 #
 
-# minerom-tx binary #
-minerom_tx_SOURCES = minerom-tx.cpp
-minerom_tx_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
-minerom_tx_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-minerom_tx_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
+# gincoin-tx binary #
+gincoin_tx_SOURCES = gincoin-tx.cpp
+gincoin_tx_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
+gincoin_tx_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+gincoin_tx_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
 
 if TARGET_WINDOWS
-minerom_tx_SOURCES += minerom-tx-res.rc
+gincoin_tx_SOURCES += gincoin-tx-res.rc
 endif
 
-minerom_tx_LDADD = \
+gincoin_tx_LDADD = \
   $(LIBUNIVALUE) \
   $(LIBBITCOIN_COMMON) \
   $(LIBBITCOIN_UTIL) \
   $(LIBBITCOIN_CRYPTO) \
   $(LIBSECP256K1)
 
-minerom_tx_LDADD += $(BOOST_LIBS) $(CRYPTO_LIBS)
+gincoin_tx_LDADD += $(BOOST_LIBS) $(CRYPTO_LIBS)
 #
 
-# bitcoinconsensus library #
+# gincoinconsensus library #
 if BUILD_BITCOIN_LIBS
-include_HEADERS = script/bitcoinconsensus.h
-libbitcoinconsensus_la_SOURCES = \
+include_HEADERS = script/gincoinconsensus.h
+libgincoinconsensus_la_SOURCES = \
   crypto/hmac_sha512.cpp \
   crypto/ripemd160.cpp \
   crypto/sha1.cpp \
@@ -471,20 +508,20 @@ libbitcoinconsensus_la_SOURCES = \
   hash.cpp \
   primitives/transaction.cpp \
   pubkey.cpp \
-  script/bitcoinconsensus.cpp \
+  script/gincoinconsensus.cpp \
   script/interpreter.cpp \
   script/script.cpp \
   uint256.cpp \
   utilstrencodings.cpp
 
 if GLIBC_BACK_COMPAT
-  libbitcoinconsensus_la_SOURCES += compat/glibc_compat.cpp
+  libgincoinconsensus_la_SOURCES += compat/glibc_compat.cpp
 endif
 
-libbitcoinconsensus_la_LDFLAGS = $(AM_LDFLAGS) -no-undefined $(RELDFLAGS)
-libbitcoinconsensus_la_LIBADD = $(LIBSECP256K1)
-libbitcoinconsensus_la_CPPFLAGS = $(AM_CPPFLAGS) -I$(builddir)/obj -I$(srcdir)/secp256k1/include -DBUILD_BITCOIN_INTERNAL
-libbitcoinconsensus_la_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+libgincoinconsensus_la_LDFLAGS = $(AM_LDFLAGS) -no-undefined $(RELDFLAGS)
+libgincoinconsensus_la_LIBADD = $(LIBSECP256K1)
+libgincoinconsensus_la_CPPFLAGS = $(AM_CPPFLAGS) -I$(builddir)/obj -I$(srcdir)/secp256k1/include -DBUILD_BITCOIN_INTERNAL
+libgincoinconsensus_la_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 
 endif
 #

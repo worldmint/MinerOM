@@ -1,21 +1,34 @@
-MinerOM Core staging tree 0.12.1
+Gincoin Core staging tree 1.0.0
 ===============================
 
-http://minerom.solutions/
+https://gincoin.io
+
+
+What is Gincoin?
+----------------
+
+Gincoin is an experimental new digital currency that enables anonymous, instant
+payments to anyone, anywhere in the world. Gincoin uses peer-to-peer technology
+to operate with no central authority: managing transactions and issuing money
+are carried out collectively by the network. Gincoin Core is the name of the open
+source software which enables the use of this currency.
+
+For more information, as well as an immediately useable, binary version of
+the Gincoin Core software, see https://gincoin.io/.
 
 
 License
 -------
 
-MinerOM Core is released under the terms of the MIT license. See [COPYING](COPYING) for more
+Gincoin Core is released under the terms of the MIT license. See [COPYING](COPYING) for more
 information or see https://opensource.org/licenses/MIT.
 
 Development Process
 -------------------
 
 The `master` branch is meant to be stable. Development is normally done in separate branches.
-[Tags](https://github.com/worldmint/MinerOM/tags) are created to indicate new official,
-stable release versions of MinerOM Core.
+[Tags](https://github.com/gincoin-dev/gincoin-core/tags) are created to indicate new official,
+stable release versions of Gincoin Core.
 
 The contribution workflow is described in [CONTRIBUTING.md](CONTRIBUTING.md).
 
@@ -46,3 +59,4 @@ Changes should be tested by somebody other than the developer who wrote the
 code. This is especially important for large or high-risk changes. It is useful
 to add a test plan to the pull request description if testing the changes is
 not straightforward.
+

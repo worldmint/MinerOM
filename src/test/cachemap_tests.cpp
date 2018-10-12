@@ -1,9 +1,9 @@
 // Copyright (c) 2014-2017 The Dash Core developers
-// Copyright (c) 2017-2018 The MinerOM Core developers
+// Copyright (c) 2018 The Gincoin Core developers
 
 #include "cachemap.h"
 
-#include "test/test_minerom.h"
+#include "test/test_gincoin.h"
 
 #include <boost/test/unit_test.hpp>
 

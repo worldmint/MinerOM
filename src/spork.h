@@ -1,5 +1,5 @@
 // Copyright (c) 2014-2017 The Dash Core developers
-// Copyright (c) 2017-2018 The MinerOM Core developers
+// Copyright (c) 2018 The Gincoin Core developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -32,10 +32,10 @@ static const int SPORK_14_REQUIRE_SENTINEL_FLAG                         = 10013;
 
 static const int64_t SPORK_2_INSTANTSEND_ENABLED_DEFAULT                = 0;            // ON
 static const int64_t SPORK_3_INSTANTSEND_BLOCK_FILTERING_DEFAULT        = 0;            // ON
-static const int64_t SPORK_5_INSTANTSEND_MAX_VALUE_DEFAULT              = 1000;         // 1000 MinerOM
-static const int64_t SPORK_8_MASTERNODE_PAYMENT_ENFORCEMENT_DEFAULT     = 1510934400;// ON at 2017/12/18 @ 00:00  GMT +8:00
+static const int64_t SPORK_5_INSTANTSEND_MAX_VALUE_DEFAULT              = 1000;         // 1000 GIN
+static const int64_t SPORK_8_MASTERNODE_PAYMENT_ENFORCEMENT_DEFAULT     = 1519399557;
 static const int64_t SPORK_9_SUPERBLOCKS_ENABLED_DEFAULT                = 4070908800ULL;// OFF
-static const int64_t SPORK_10_MASTERNODE_PAY_UPDATED_NODES_DEFAULT      = 4070908800ULL;// OFF
+static const int64_t SPORK_10_MASTERNODE_PAY_UPDATED_NODES_DEFAULT      = 1519516800;   // 25 feb 2018
 static const int64_t SPORK_12_RECONSIDER_BLOCKS_DEFAULT                 = 0;            // 0 BLOCKS
 static const int64_t SPORK_13_OLD_SUPERBLOCK_FLAG_DEFAULT               = 4070908800ULL;// OFF
 static const int64_t SPORK_14_REQUIRE_SENTINEL_FLAG_DEFAULT             = 4070908800ULL;// OFF
@@ -92,7 +92,7 @@ public:
 
     bool Sign(std::string strSignKey);
     bool CheckSignature();
-    void Relay();
+    void Relay(CConnman& connman);
 };
 
 
@@ -107,9 +107,9 @@ public:
 
     CSporkManager() {}
 
-    void ProcessSpork(CNode* pfrom, std::string& strCommand, CDataStream& vRecv);
+    void ProcessSpork(CNode* pfrom, std::string& strCommand, CDataStream& vRecv, CConnman& connman);
     void ExecuteSpork(int nSporkID, int nValue);
-    bool UpdateSpork(int nSporkID, int64_t nValue);
+    bool UpdateSpork(int nSporkID, int64_t nValue, CConnman& connman);
 
     bool IsSporkActive(int nSporkID);
     int64_t GetSporkValue(int nSporkID);

@@ -1,13 +1,14 @@
 // Copyright (c) 2014-2015 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // Copyright (c) 2014-2017 The Dash Core developers
-// Copyright (c) 2017-2018 The MinerOM Core developers
+// Copyright (c) 2018 The Gincoin Core developers
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include "chainparams.h"
-#include "main.h"
+#include "validation.h"
+#include "net.h"
 
-#include "test/test_minerom.h"
+#include "test/test_gincoin.h"
 
 #include <boost/signals2/signal.hpp>
 #include <boost/test/unit_test.hpp>
@@ -16,9 +17,9 @@ BOOST_FIXTURE_TEST_SUITE(main_tests, TestingSetup)
 
 static void TestBlockSubsidyHalvings(const Consensus::Params& consensusParams)
 {
-    // tested in minerom_tests.cpp
+    // tested in dash_tests.cpp
     //int maxHalvings = 64;
-    //CAmount nInitialSubsidy = 50 * COIN;
+    //CAmount nInitialSubsidy = 20 * COIN;
 
     //CAmount nPreviousSubsidy = nInitialSubsidy * 2; // for height == 0
     //BOOST_CHECK_EQUAL(nPreviousSubsidy, nInitialSubsidy * 2);
@@ -34,7 +35,7 @@ static void TestBlockSubsidyHalvings(const Consensus::Params& consensusParams)
 
 static void TestBlockSubsidyHalvings(int nSubsidyHalvingInterval)
 {
-    // tested in minerom_tests.cpp
+    // tested in dash_tests.cpp
     //Consensus::Params consensusParams;
     //consensusParams.nSubsidyHalvingInterval = nSubsidyHalvingInterval;
     //TestBlockSubsidyHalvings(consensusParams);
@@ -42,7 +43,7 @@ static void TestBlockSubsidyHalvings(int nSubsidyHalvingInterval)
 
 BOOST_AUTO_TEST_CASE(block_subsidy_test)
 {
-    // tested in minerom_tests.cpp
+    // tested in dash_tests.cpp
     //TestBlockSubsidyHalvings(Params(CBaseChainParams::MAIN).GetConsensus()); // As in main
     //TestBlockSubsidyHalvings(150); // As in regtest
     //TestBlockSubsidyHalvings(1000); // Just another interval
@@ -50,7 +51,7 @@ BOOST_AUTO_TEST_CASE(block_subsidy_test)
 
 BOOST_AUTO_TEST_CASE(subsidy_limit_test)
 {
-    // tested in minerom_tests.cpp
+    // tested in dash_tests.cpp
     //const Consensus::Params& consensusParams = Params(CBaseChainParams::MAIN).GetConsensus();
     //CAmount nSum = 0;
     //for (int nHeight = 0; nHeight < 14000000; nHeight += 1000) {

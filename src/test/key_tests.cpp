@@ -9,7 +9,7 @@
 #include "uint256.h"
 #include "util.h"
 #include "utilstrencodings.h"
-#include "test/test_minerom.h"
+#include "test/test_gincoin.h"
 
 #include <string>
 #include <vector>

@@ -1,5 +1,5 @@
 // Copyright (c) 2014-2017 The Dash Core developers
-// Copyright (c) 2017-2018 The MinerOM Core developers
+// Copyright (c) 2018 The Gincoin Core developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -73,7 +73,7 @@ public:
 
     CGovernanceObjectVoteFile& operator=(const CGovernanceObjectVoteFile& other);
 
-    void RemoveVotesFromMasternode(const CTxIn& vinMasternode);
+    void RemoveVotesFromMasternode(const COutPoint& outpointMasternode);
 
     ADD_SERIALIZE_METHODS;
 

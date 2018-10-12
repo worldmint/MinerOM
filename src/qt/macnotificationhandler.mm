@@ -13,7 +13,7 @@
 - (NSString *)__bundleIdentifier
 {
     if (self == [NSBundle mainBundle]) {
-        return @"org.minerom.MinerOM-Qt";
+        return @"org.gincoin.Gincoin-Qt";
     } else {
         return [self __bundleIdentifier];
     }

@@ -9,7 +9,7 @@
 #include <utility>
 #include <vector>
 
-#include "test/test_minerom.h"
+#include "test/test_gincoin.h"
 
 #include <boost/foreach.hpp>
 #include <boost/test/unit_test.hpp>
@@ -48,7 +48,7 @@ static void add_coin(const CAmount& nValue, int nAge = 6*24, bool fIsFromMe = fa
         wtx->fDebitCached = true;
         wtx->nDebitCached = 1;
     }
-    COutput output(wtx, nInput, nAge, true);
+    COutput output(wtx, nInput, nAge, true, true);
     vCoins.push_back(output);
 }
 
@@ -289,10 +289,10 @@ BOOST_AUTO_TEST_CASE(coin_selection_tests)
             for (int i2 = 0; i2 < 100; i2++)
                 add_coin(COIN);
 
-            // picking 50 from 100 coins doesn't depend on the shuffle,
+            // picking 20 from 100 coins doesn't depend on the shuffle,
             // but does depend on randomness in the stochastic approximation code
-            BOOST_CHECK(wallet.SelectCoinsMinConf(50 * COIN, 1, 6, vCoins, setCoinsRet , nValueRet));
-            BOOST_CHECK(wallet.SelectCoinsMinConf(50 * COIN, 1, 6, vCoins, setCoinsRet2, nValueRet));
+            BOOST_CHECK(wallet.SelectCoinsMinConf(20 * COIN, 1, 6, vCoins, setCoinsRet , nValueRet));
+            BOOST_CHECK(wallet.SelectCoinsMinConf(20 * COIN, 1, 6, vCoins, setCoinsRet2, nValueRet));
             BOOST_CHECK(!equal_sets(setCoinsRet, setCoinsRet2));
 
             int fails = 0;

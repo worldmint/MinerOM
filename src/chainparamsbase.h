@@ -9,8 +9,8 @@
 #include <vector>
 
 /**
- * CBaseChainParams defines the base parameters (shared between minerom-cli and mineromd)
- * of a given instance of the MinerOM system.
+ * CBaseChainParams defines the base parameters (shared between gincoin-cli and gincoind)
+ * of a given instance of the Dash system.
  */
 class CBaseChainParams
 {

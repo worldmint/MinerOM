@@ -16,9 +16,9 @@ enum GovernanceObjectType {
     ValueOverride = 1, 
 
     // -------------------------------
-    // MinerOMNetwork - is the root node
-    MinerOMNetwork = 1000,
-    MinerOMNetworkVariable = 1001,
+    // DashNetwork - is the root node
+    GincoinNetwork = 1000,
+    GincoinNetworkVariable = 1001,
     Category = 1002,
 
     // Actors

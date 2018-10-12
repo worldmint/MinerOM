@@ -1,6 +1,6 @@
 ### TestGen ###
 
-Utilities to generate test vectors for the data-driven MinerOM tests.
+Utilities to generate test vectors for the data-driven Gincoin tests.
 
 Usage: 
 

@@ -586,7 +586,7 @@ static void neoscrypt_salsa(uint *X, uint rounds) {
     x0 = X[0];   x1 = X[1];   x2 = X[2];   x3 = X[3];
     x4 = X[4];   x5 = X[5];   x6 = X[6];   x7 = X[7];
     x8 = X[8];   x9 = X[9];  x10 = X[10]; x11 = X[11];
-   x12 = X[12]; x13 = X[13]; x14 = X[14]; x15 = X[15];
+    x12 = X[12]; x13 = X[13]; x14 = X[14]; x15 = X[15];
 
 #define quarter(a, b, c, d) \
     t = a + d; t = ROTL32(t,  7); b ^= t; \
@@ -608,7 +608,7 @@ static void neoscrypt_salsa(uint *X, uint rounds) {
     X[0] += x0;   X[1] += x1;   X[2] += x2;   X[3] += x3;
     X[4] += x4;   X[5] += x5;   X[6] += x6;   X[7] += x7;
     X[8] += x8;   X[9] += x9;  X[10] += x10; X[11] += x11;
-   X[12] += x12; X[13] += x13; X[14] += x14; X[15] += x15;
+    X[12] += x12; X[13] += x13; X[14] += x14; X[15] += x15;
 
 #undef quarter
 }
@@ -620,7 +620,7 @@ static void neoscrypt_chacha(uint *X, uint rounds) {
     x0 = X[0];   x1 = X[1];   x2 = X[2];   x3 = X[3];
     x4 = X[4];   x5 = X[5];   x6 = X[6];   x7 = X[7];
     x8 = X[8];   x9 = X[9];  x10 = X[10]; x11 = X[11];
-   x12 = X[12]; x13 = X[13]; x14 = X[14]; x15 = X[15];
+    x12 = X[12]; x13 = X[13]; x14 = X[14]; x15 = X[15];
 
 #define quarter(a,b,c,d) \
     a += b; t = d ^ a; d = ROTL32(t, 16); \
@@ -642,7 +642,7 @@ static void neoscrypt_chacha(uint *X, uint rounds) {
     X[0] += x0;   X[1] += x1;   X[2] += x2;   X[3] += x3;
     X[4] += x4;   X[5] += x5;   X[6] += x6;   X[7] += x7;
     X[8] += x8;   X[9] += x9;  X[10] += x10; X[11] += x11;
-   X[12] += x12; X[13] += x13; X[14] += x14; X[15] += x15;
+    X[12] += x12; X[13] += x13; X[14] += x14; X[15] += x15;
 
 #undef quarter
 }
@@ -708,7 +708,7 @@ void neoscrypt_copy(void *dstp, const void *srcp, uint len) {
     uint i, tail;
 
     for(i = 0; i < (len / sizeof(size_t)); i++)
-      dst[i] = src[i];
+        dst[i] = src[i];
 
     tail = len & (sizeof(size_t) - 1);
     if(tail) {
@@ -716,7 +716,7 @@ void neoscrypt_copy(void *dstp, const void *srcp, uint len) {
         uchar *srcb = (uchar *) srcp;
 
         for(i = len - tail; i < len; i++)
-          dstb[i] = srcb[i];
+            dstb[i] = srcb[i];
     }
 }
 
@@ -727,14 +727,14 @@ void neoscrypt_erase(void *dstp, uint len) {
     uint i, tail;
 
     for(i = 0; i < (len / sizeof(size_t)); i++)
-      dst[i] = null;
+        dst[i] = null;
 
     tail = len & (sizeof(size_t) - 1);
     if(tail) {
         uchar *dstb = (uchar *) dstp;
 
         for(i = len - tail; i < len; i++)
-          dstb[i] = (uchar)null;
+            dstb[i] = (uchar)null;
     }
 }
 
@@ -745,7 +745,7 @@ void neoscrypt_xor(void *dstp, const void *srcp, uint len) {
     uint i, tail;
 
     for(i = 0; i < (len / sizeof(size_t)); i++)
-      dst[i] ^= src[i];
+        dst[i] ^= src[i];
 
     tail = len & (sizeof(size_t) - 1);
     if(tail) {
@@ -753,7 +753,7 @@ void neoscrypt_xor(void *dstp, const void *srcp, uint len) {
         uchar *srcb = (uchar *) srcp;
 
         for(i = len - tail; i < len; i++)
-          dstb[i] ^= srcb[i];
+            dstb[i] ^= srcb[i];
     }
 }
 
@@ -788,8 +788,8 @@ typedef struct blake2s_state_t {
 } blake2s_state;
 
 static const uint blake2s_IV[8] = {
-    0x6A09E667, 0xBB67AE85, 0x3C6EF372, 0xA54FF53A,
-    0x510E527F, 0x9B05688C, 0x1F83D9AB, 0x5BE0CD19
+        0x6A09E667, 0xBB67AE85, 0x3C6EF372, 0xA54FF53A,
+        0x510E527F, 0x9B05688C, 0x1F83D9AB, 0x5BE0CD19
 };
 
 #ifdef ASM
@@ -2204,7 +2204,7 @@ static void blake2s_compress(blake2s_state *S) {
 #endif /* ASM */
 
 static void blake2s_update(blake2s_state *S, const uchar *input,
-  uint input_size) {
+                           uint input_size) {
     uint left, fill;
 
     while(input_size > 0) {
@@ -2234,7 +2234,7 @@ static void blake2s_update(blake2s_state *S, const uchar *input,
 }
 
 void neoscrypt_blake2s(const void *input, const uint input_size,
-  const void *key, const uchar key_size, void *output, const uchar output_size) {
+                       const void *key, const uchar key_size, void *output, const uchar output_size) {
     uchar block[BLOCK_SIZE];
     blake2s_param P[1];
     blake2s_state S[1];
@@ -2282,42 +2282,42 @@ void neoscrypt_blake2s(const void *input, const uint input_size,
  * password_len, salt_len and output_len should not exceed FASTKDF_BUFFER_SIZE;
  * prf_output_size must be <= prf_key_size; */
 void neoscrypt_fastkdf(const uchar *password, uint password_len,
-  const uchar *salt, uint salt_len, uint N, uchar *output, uint output_len) {
+                       const uchar *salt, uint salt_len, uint N, uchar *output, uint output_len) {
     const size_t stack_align = 0x40;
     const uint kdf_buf_size = FASTKDF_BUFFER_SIZE,
-      prf_input_size = 64, prf_key_size = 32, prf_output_size = 32;
+            prf_input_size = 64, prf_key_size = 32, prf_output_size = 32;
     uint bufptr, a, b, i, j;
     uchar *A, *B, *prf_input, *prf_key, *prf_output;
 
     /* Align and set up the buffers in stack */
     uchar stack[2 * kdf_buf_size + prf_input_size + prf_key_size
-      + prf_output_size + stack_align];
+                + prf_output_size + stack_align];
     A          = (uchar *) (((size_t)stack & ~(stack_align - 1)) + stack_align);
     B          = &A[kdf_buf_size + prf_input_size];
     prf_output = &A[2 * kdf_buf_size + prf_input_size + prf_key_size];
 
     /* Initialise the password buffer */
     if(password_len > kdf_buf_size)
-       password_len = kdf_buf_size;
+        password_len = kdf_buf_size;
 
     a = kdf_buf_size / password_len;
     for(i = 0; i < a; i++)
-      neoscrypt_copy(&A[i * password_len], &password[0], password_len);
+        neoscrypt_copy(&A[i * password_len], &password[0], password_len);
     b = kdf_buf_size - a * password_len;
     if(b)
-      neoscrypt_copy(&A[a * password_len], &password[0], b);
+        neoscrypt_copy(&A[a * password_len], &password[0], b);
     neoscrypt_copy(&A[kdf_buf_size], &password[0], prf_input_size);
 
     /* Initialise the salt buffer */
     if(salt_len > kdf_buf_size)
-       salt_len = kdf_buf_size;
+        salt_len = kdf_buf_size;
 
     a = kdf_buf_size / salt_len;
     for(i = 0; i < a; i++)
-      neoscrypt_copy(&B[i * salt_len], &salt[0], salt_len);
+        neoscrypt_copy(&B[i * salt_len], &salt[0], salt_len);
     b = kdf_buf_size - a * salt_len;
     if(b)
-      neoscrypt_copy(&B[a * salt_len], &salt[0], b);
+        neoscrypt_copy(&B[a * salt_len], &salt[0], b);
     neoscrypt_copy(&B[kdf_buf_size], &salt[0], prf_key_size);
 
     /* The primary iteration */
@@ -2331,11 +2331,11 @@ void neoscrypt_fastkdf(const uchar *password, uint password_len,
 
         /* PRF */
         neoscrypt_blake2s(prf_input, prf_input_size, prf_key, prf_key_size,
-          prf_output, prf_output_size);
+                          prf_output, prf_output_size);
 
         /* Calculate the next buffer pointer */
         for(j = 0, bufptr = 0; j < prf_output_size; j++)
-          bufptr += prf_output[j];
+            bufptr += prf_output[j];
         bufptr &= (kdf_buf_size - 1);
 
         /* Modify the salt buffer */
@@ -2343,18 +2343,18 @@ void neoscrypt_fastkdf(const uchar *password, uint password_len,
 
         /* Head modified, tail updated */
         if(bufptr < prf_key_size)
-          neoscrypt_copy(&B[kdf_buf_size + bufptr], &B[bufptr],
-            MIN(prf_output_size, prf_key_size - bufptr));
-        /* Tail modified, head updated */
+            neoscrypt_copy(&B[kdf_buf_size + bufptr], &B[bufptr],
+                           MIN(prf_output_size, prf_key_size - bufptr));
+            /* Tail modified, head updated */
         else if((kdf_buf_size - bufptr) < prf_output_size)
-          neoscrypt_copy(&B[0], &B[kdf_buf_size],
-            prf_output_size - (kdf_buf_size - bufptr));
+            neoscrypt_copy(&B[0], &B[kdf_buf_size],
+                           prf_output_size - (kdf_buf_size - bufptr));
 
     }
 
     /* Modify and copy into the output buffer */
     if(output_len > kdf_buf_size)
-      output_len = kdf_buf_size;
+        output_len = kdf_buf_size;
 
     a = kdf_buf_size - bufptr;
     if(a >= output_len) {
@@ -2535,15 +2535,15 @@ static void neoscrypt_blkmix(uint *X, uint *Y, uint r, uint mixmode) {
         if(i) neoscrypt_blkxor(&X[16 * i], &X[16 * (i - 1)], BLOCK_SIZE);
         else  neoscrypt_blkxor(&X[0], &X[16 * (2 * r - 1)], BLOCK_SIZE);
         if(mixer)
-          neoscrypt_chacha(&X[16 * i], rounds);
+            neoscrypt_chacha(&X[16 * i], rounds);
         else
-          neoscrypt_salsa(&X[16 * i], rounds);
+            neoscrypt_salsa(&X[16 * i], rounds);
         neoscrypt_blkcpy(&Y[16 * i], &X[16 * i], BLOCK_SIZE);
     }
     for(i = 0; i < r; i++)
-      neoscrypt_blkcpy(&X[16 * i], &Y[16 * 2 * i], BLOCK_SIZE);
+        neoscrypt_blkcpy(&X[16 * i], &Y[16 * 2 * i], BLOCK_SIZE);
     for(i = 0; i < r; i++)
-      neoscrypt_blkcpy(&X[16 * (i + r)], &Y[16 * (2 * i + 1)], BLOCK_SIZE);
+        neoscrypt_blkcpy(&X[16 * (i + r)], &Y[16 * (2 * i + 1)], BLOCK_SIZE);
 }
 
 
@@ -2617,7 +2617,7 @@ void neoscrypt(const uchar *password, uchar *output, uint profile) {
             neoscrypt_fastkdf_opt(password, password, (uchar *) X, 0);
 #else
             neoscrypt_fastkdf(password, 80, password, 80, 32,
-              (uchar *) X, r * 2 * BLOCK_SIZE);
+                              (uchar *) X, r * 2 * BLOCK_SIZE);
 #endif
             break;
 
@@ -2678,8 +2678,8 @@ void neoscrypt(const uchar *password, uchar *output, uint profile) {
     }
 
     if(dblmix)
-      /* blkxor(X, Z) */
-      neoscrypt_blkxor(&X[0], &Z[0], r * 2 * BLOCK_SIZE);
+        /* blkxor(X, Z) */
+        neoscrypt_blkxor(&X[0], &Z[0], r * 2 * BLOCK_SIZE);
 
     /* output = KDF(password, X) */
     switch(kdf) {
@@ -2690,7 +2690,7 @@ void neoscrypt(const uchar *password, uchar *output, uint profile) {
             neoscrypt_fastkdf_opt(password, (uchar *) X, output, 1);
 #else
             neoscrypt_fastkdf(password, 80, (uchar *) X,
-              r * 2 * BLOCK_SIZE, 32, output, 32);
+                              r * 2 * BLOCK_SIZE, 32, output, 32);
 #endif
             break;
 

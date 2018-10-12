@@ -6,13 +6,13 @@ and tests weren't explicitly disabled.
 
 After configuring, they can be run with `make check`.
 
-To run the mineromd tests manually, launch `src/test/test_minerom`.
+To run the gincoind tests manually, launch `src/test/test_gincoin`.
 
-To add more mineromd tests, add `BOOST_AUTO_TEST_CASE` functions to the existing
+To add more gincoind tests, add `BOOST_AUTO_TEST_CASE` functions to the existing
 .cpp files in the `test/` directory or add new .cpp files that
 implement new BOOST_AUTO_TEST_SUITE sections.
 
-To run the minerom-qt tests manually, launch `src/qt/test/test_minerom-qt`
+To run the gincoin-qt tests manually, launch `src/qt/test/test_gincoin-qt`
 
-To add more minerom-qt tests, add them to the `src/qt/test/` directory and
+To add more gincoin-qt tests, add them to the `src/qt/test/` directory and
 the `src/qt/test/test_main.cpp` file.

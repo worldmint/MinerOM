@@ -1,7 +1,7 @@
 // Copyright (c) 2010 Satoshi Nakamoto
 // Copyright (c) 2009-2014 The Bitcoin Core developers
 // Copyright (c) 2014-2017 The Dash Core developers
-// Copyright (c) 2017-2018 The MinerOM Core developers
+// Copyright (c) 2018 The Gincoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -41,6 +41,11 @@ static bool noui_ThreadSafeMessageBox(const std::string& message, const std::str
     return false;
 }
 
+static bool noui_ThreadSafeQuestion(const std::string& /* ignored interactive message */, const std::string& message, const std::string& caption, unsigned int style)
+{
+    return noui_ThreadSafeMessageBox(message, caption, style);
+}
+
 static void noui_InitMessage(const std::string& message)
 {
     LogPrintf("init message: %s\n", message);
@@ -48,7 +53,8 @@ static void noui_InitMessage(const std::string& message)
 
 void noui_connect()
 {
-    // Connect mineromd signal handlers
+    // Connect gincoind signal handlers
     uiInterface.ThreadSafeMessageBox.connect(noui_ThreadSafeMessageBox);
+    uiInterface.ThreadSafeQuestion.connect(noui_ThreadSafeQuestion);
     uiInterface.InitMessage.connect(noui_InitMessage);
 }

@@ -8,9 +8,7 @@ packages:
 - "libssl-dev"
 - "autoconf"
 reference_datetime: "2017-01-01 00:00:00"
-remotes:
-- "url": "https://github.com/worldmint/MinerOM-detached-sigs.git"
-  "dir": "signature"
+remotes: []
 files:
 - "osslsigncode-1.7.1.tar.gz"
 - "osslsigncode-Backports-to-1.7.1.patch"

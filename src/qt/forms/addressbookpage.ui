@@ -137,7 +137,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="../minerom.qrc"/>
+  <include location="../gincoin.qrc"/>
  </resources>
  <connections/>
 </ui>

@@ -113,7 +113,7 @@ background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: .05 #222222,
 border:0;
 border-radius:3px;
 color:#000000;
-font-size:12px;
+font-size:14px;
 font-weight:bold;
 padding-left:25px;
 padding-right:25px;
@@ -762,16 +762,16 @@ QDialog#HelpMessageDialog QScrollBar:vertical, QDialog#HelpMessageDialog QScroll
 border:0;
 }
 
-/* About MinerOM Dialog */
+/* About Dash Dialog */
 QDialog#AboutDialog {
 background-color:#F8F6F6;
 }
 
-QDialog#AboutDialog QLabel#label, QDialog#AboutDialog QLabel#copyrightLabel, QDialog#AboutDialog QLabel#label_2 { /* About MinerOM Contents */
+QDialog#AboutDialog QLabel#label, QDialog#AboutDialog QLabel#copyrightLabel, QDialog#AboutDialog QLabel#label_2 { /* About Dash Contents */
 margin-left:10px;
 }
 
-QDialog#AboutDialog QLabel#label_2 { /* Margin for About MinerOM text */
+QDialog#AboutDialog QLabel#label_2 { /* Margin for About Dash text */
 margin-right:10px;
 }
 
@@ -1126,7 +1126,7 @@ min-width:410px;
 margin-right:20px;
 margin-left:0;
 margin-top:0;
-background-image: url(':/images/crownium/minerom_logo_horizontal');
+background-image: url(':/images/crownium/gincoin_logo_horizontal');
 background-repeat:none;
 }
 
@@ -1158,6 +1158,34 @@ max-width:369px;
 color:#333333;
 margin-top:12px;
 margin-left:0px; /* CSS Voodoo - set to -66px to hide default transaction icons */
+}
+
+/* MODAL OVERLAY */
+
+QWidget#bgWidget { /* The 'frame' overlaying the overview-page */
+    background:qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: .01 #f6f6f6, stop: .1 rgba(250, 250, 250, 128), stop: .95 rgba(250, 250, 250, 255), stop: 1 #ebebeb);
+    color:#616161;
+    padding-left:10px;
+    padding-right:10px;
+}
+
+QWidget#bgWidget .QPushButton#warningIcon {
+width:64px;
+height:64px;
+padding:5px;
+background-color:transparent;
+}
+
+QWidget#contentWidget { /* The actual content with the text/buttons/etc... */
+border-image: url(':/images/crownium/drkblue_walletFrame_bg') 0 0 0 0 stretch stretch;
+border-top:0px solid #000;
+margin:0;
+padding-top:20px;
+padding-bottom: 20px;
+}
+
+QWidget#bgWidget .QPushButton#closeButton {
+
 }
 
 /* SEND DIALOG */

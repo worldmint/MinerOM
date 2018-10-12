@@ -5,13 +5,13 @@
 #include "consensus/validation.h"
 #include "data/sighash.json.h"
 #include "hash.h"
-#include "main.h" // For CheckTransaction
+#include "validation.h" // For CheckTransaction
 #include "random.h"
 #include "script/interpreter.h"
 #include "script/script.h"
 #include "serialize.h"
 #include "streams.h"
-#include "test/test_minerom.h"
+#include "test/test_gincoin.h"
 #include "util.h"
 #include "utilstrencodings.h"
 #include "version.h"

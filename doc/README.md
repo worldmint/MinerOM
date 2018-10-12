@@ -1,37 +1,30 @@
-MinerOM Core 0.12.1
+Gincoin Core 0.12.1
 =====================
 
-This is the official reference wallet for MinerOM digital currency and comprises the backbone of the MinerOM peer-to-peer network. You can [download MinerOM Core](https://www.minerom.org/downloads/) or [build it yourself](#building) using the guides below.
+This is the official reference wallet for Gincoin digital currency and comprises the backbone of the Gincoin peer-to-peer network. You can [download Gincoin Core](https://www.gincoin.io/#downloads) or [build it yourself](#building) using the guides below.
 
 Running
 ---------------------
-The following are some helpful notes on how to run MinerOM on your native platform.
+The following are some helpful notes on how to run Gincoin on your native platform.
 
 ### Unix
 
 Unpack the files into a directory and run:
 
-- `bin/bitcoin-qt` (GUI) or
-- `bin/bitcoind` (headless)
+- `bin/gincoin-qt` (GUI) or
+- `bin/gincoind` (headless)
 
 ### Windows
 
-Unpack the files into a directory, and then run minerom-qt.exe.
+Unpack the files into a directory, and then run gincoin-qt.exe.
 
 ### OS X
 
-Drag MinerOM-Qt to your applications folder, and then run MinerOM-Qt.
-
-### Need Help?
-
-* See the [MinerOM documentation](https://mineromcoin.atlassian.net/wiki/display/DOC)
-for help and more information.
-* Ask for help on [#mineromcoin](http://webchat.freenode.net?channels=mineromcoin) on Freenode. If you don't have an IRC client use [webchat here](http://webchat.freenode.net?channels=mineromcoin).
-* Ask for help on the [MinerOMTalk](https://mineromtalk.org/) forums.
+Drag Gincoin-Qt to your applications folder, and then run Gincoin-Qt.
 
 Building
 ---------------------
-The following are developer notes on how to build MinerOM Core on your native platform. They are not complete guides, but include notes on the necessary libraries, compile flags, etc.
+The following are developer notes on how to build Gincoin Core on your native platform. They are not complete guides, but include notes on the necessary libraries, compile flags, etc.
 
 - [OS X Build Notes](build-osx.md)
 - [Unix Build Notes](build-unix.md)
@@ -41,7 +34,7 @@ The following are developer notes on how to build MinerOM Core on your native pl
 
 Development
 ---------------------
-The MinerOM Core repo's [root README](/README.md) contains relevant information on the development process and automated testing.
+The Gincoin Core repo's [root README](/README.md) contains relevant information on the development process and automated testing.
 
 - [Developer Notes](developer-notes.md)
 - [Multiwallet Qt Development](multiwallet-qt.md)
@@ -55,10 +48,6 @@ The MinerOM Core repo's [root README](/README.md) contains relevant information 
 - [Shared Libraries](shared-libraries.md)
 - [BIPS](bips.md)
 - [Dnsseed Policy](dnsseed-policy.md)
-
-### Resources
-* Discuss on the [MinerOMTalk](https://mineromtalk.org/) forums, in the Development & Technical Discussion board.
-* Discuss on [#mineromcoin](http://webchat.freenode.net/?channels=mineromcoin) on Freenode. If you don't have an IRC client use [webchat here](http://webchat.freenode.net/?channels=mineromcoin).
 
 ### Miscellaneous
 - [Assets Attribution](assets-attribution.md)

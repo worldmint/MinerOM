@@ -7,8 +7,8 @@ GovernanceObjectType GovernanceStringToType(std::string strType) {
     if(strType == "AllTypes") type = AllTypes;
     if(strType == "Error") type = Error;
     if(strType == "ValueOverride") type = ValueOverride;
-    if(strType == "MinerOMNetwork") type = MinerOMNetwork;
-    if(strType == "MinerOMNetworkVariable") type = MinerOMNetworkVariable;
+    if(strType == "GincoinNetwork") type = GincoinNetwork;
+    if(strType == "GincoinNetworkVariable") type = GincoinNetworkVariable;
     if(strType == "Category") type = Category;
     if(strType == "Group") type = Group;
     if(strType == "User") type = User;
@@ -28,8 +28,8 @@ std::string GovernanceTypeToString(GovernanceObjectType type) {
     if(type == AllTypes) s = "AllTypes";
     if(type == Error) s = "Error";
     if(type == ValueOverride) s = "ValueOverride";
-    if(type == MinerOMNetwork) s = "MinerOMNetwork";
-    if(type == MinerOMNetworkVariable) s = "MinerOMNetworkVariable";
+    if(type == GincoinNetwork) s = "GincoinNetwork";
+    if(type == GincoinNetworkVariable) s = "GincoinNetworkVariable";
     if(type == Category) s = "Category";
     if(type == Group) s = "Group";
     if(type == User) s = "User";

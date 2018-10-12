@@ -1,8 +1,8 @@
-Source: minerom
+Source: gincoin
 Section: utils
 Priority: optional
-Maintainer: Holger Schinzel <holger@minerom.org>
-Uploaders: Holger Schinzel <holger@minerom.org>
+Maintainer: Gincoin Dev <dev@gincoin.io>
+Uploaders: Gincoin Dev <dev@gincoin.io>
 Build-Depends: debhelper,
  devscripts,
  automake,
@@ -24,45 +24,45 @@ Build-Depends: debhelper,
  libprotobuf-dev, protobuf-compiler,
  python
 Standards-Version: 3.9.2
-Homepage: https://www.minerom.org/
-Vcs-Git: git://github.com/mineromcoin/minerom.git
-Vcs-Browser: https://github.com/worldmint/MinerOM
+Homepage: https://gincoin.io/
+Vcs-Git: git://github.com/gincoin/gincoin-core.git
+Vcs-Browser: https://github.com/gincoin-dev/gincoin-core
 
-Package: mineromd
+Package: gincoind
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: peer-to-peer network based digital currency - daemon
- MinerOM is an experimental new digital currency that enables anonymous, instant
- payments to anyone, anywhere in the world. MinerOM uses peer-to-peer
+ Gincoin is an experimental new digital currency that enables anonymous, instant
+ payments to anyone, anywhere in the world. Gincoin uses peer-to-peer
  technology to operate with no central authority: managing transactions
- and issuing money are carried out collectively by the network. MinerOM Core
+ and issuing money are carried out collectively by the network. Gincoin Core
  is the name of the open source software which enables the use of this currency.
  .
- This package provides the daemon, mineromd, and the CLI tool
- minerom-cli to interact with the daemon.
+ This package provides the daemon, gincoind, and the CLI tool
+ gincoin-cli to interact with the daemon.
 
-Package: minerom-qt
+Package: gincoin-qt
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: peer-to-peer network based digital currency - Qt GUI
- MinerOM is an experimental new digital currency that enables anonymous, instant
- payments to anyone, anywhere in the world. MinerOM uses peer-to-peer
+ Gincoin is an experimental new digital currency that enables anonymous, instant
+ payments to anyone, anywhere in the world. Gincoin uses peer-to-peer
  technology to operate with no central authority: managing transactions
- and issuing money are carried out collectively by the network. MinerOM Core
+ and issuing money are carried out collectively by the network. Gincoin Core
  is the name of the open source software which enables the use of this currency.
  .
- This package provides MinerOM-Qt, a GUI for MinerOM based on Qt.
+ This package provides Gincoin-Qt, a GUI for Gincoin based on Qt.
 
-Package: minerom-tx
+Package: gincoin-tx
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: peer-to-peer digital currency - standalone transaction tool
- MinerOM is an experimental new digital currency that enables anonymous, instant
- payments to anyone, anywhere in the world. MinerOM uses peer-to-peer
+ Gincoin is an experimental new digital currency that enables anonymous, instant
+ payments to anyone, anywhere in the world. Gincoin uses peer-to-peer
  technology to operate with no central authority: managing transactions
- and issuing money are carried out collectively by the network. MinerOM Core
+ and issuing money are carried out collectively by the network. Gincoin Core
  is the name of the open source software which enables the use of this currency.
  .
- This package provides minerom-tx, a command-line transaction creation
- tool which can be used without a minerom daemon.  Some means of
+ This package provides gincoin-tx, a command-line transaction creation
+ tool which can be used without a gincoin daemon.  Some means of
  exchanging minimal transaction data with peers is still required.

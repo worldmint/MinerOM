@@ -1,11 +1,11 @@
 Sample configuration files for:
 
-SystemD: mineromd.service
-Upstart: mineromd.conf
-OpenRC:  mineromd.openrc
-         mineromd.openrcconf
-CentOS:  mineromd.init
-OS X:    org.minerom.mineromd.plist
+SystemD: gincoind.service
+Upstart: gincoind.conf
+OpenRC:  gincoind.openrc
+         gincoind.openrcconf
+CentOS:  gincoind.init
+OS X:    org.gincoin.gincoind.plist
 
 have been made available to assist packagers in creating node packages here.
 

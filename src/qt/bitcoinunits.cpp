@@ -1,6 +1,6 @@
 // Copyright (c) 2011-2015 The Bitcoin Core developers
 // Copyright (c) 2014-2017 The Dash Core developers
-// Copyright (c) 2017-2018 The MinerOM Core developers
+// Copyright (c) 2018 The Gincoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -20,9 +20,9 @@ BitcoinUnits::BitcoinUnits(QObject *parent):
 QList<BitcoinUnits::Unit> BitcoinUnits::availableUnits()
 {
     QList<BitcoinUnits::Unit> unitlist;
-    unitlist.append(MinerOM);
-    unitlist.append(mMinerOM);
-    unitlist.append(uMinerOM);
+    unitlist.append(GIN);
+    unitlist.append(mGIN);
+    unitlist.append(uGIN);
     unitlist.append(duffs);
     return unitlist;
 }
@@ -31,9 +31,9 @@ bool BitcoinUnits::valid(int unit)
 {
     switch(unit)
     {
-    case MinerOM:
-    case mMinerOM:
-    case uMinerOM:
+    case GIN:
+    case mGIN:
+    case uGIN:
     case duffs:
         return true;
     default:
@@ -47,9 +47,9 @@ QString BitcoinUnits::name(int unit)
     {
         switch(unit)
         {
-            case MinerOM: return QString("MinerOM");
-            case mMinerOM: return QString("mMinerOM");
-            case uMinerOM: return QString::fromUtf8("μMinerOM");
+            case GIN: return QString("GIN");
+            case mGIN: return QString("mGIN");
+            case uGIN: return QString::fromUtf8("μGIN");
             case duffs: return QString("duffs");
             default: return QString("???");
         }
@@ -58,9 +58,9 @@ QString BitcoinUnits::name(int unit)
     {
         switch(unit)
         {
-            case MinerOM: return QString("tMinerOM");
-            case mMinerOM: return QString("mtMinerOM");
-            case uMinerOM: return QString::fromUtf8("μtMinerOM");
+            case GIN: return QString("tGIN");
+            case mGIN: return QString("mtGIN");
+            case uGIN: return QString::fromUtf8("μtGIN");
             case duffs: return QString("tduffs");
             default: return QString("???");
         }
@@ -73,10 +73,10 @@ QString BitcoinUnits::description(int unit)
     {
         switch(unit)
         {
-            case MinerOM: return QString("MinerOM");
-            case mMinerOM: return QString("Milli-MinerOM (1 / 1" THIN_SP_UTF8 "000)");
-            case uMinerOM: return QString("Micro-MinerOM (1 / 1" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
-            case duffs: return QString("Ten Nano-MinerOM (1 / 100" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
+            case GIN: return QString("GIN");
+            case mGIN: return QString("Milli-GIN (1 / 1" THIN_SP_UTF8 "000)");
+            case uGIN: return QString("Micro-GIN (1 / 1" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
+            case duffs: return QString("Ten Nano-GIN (1 / 100" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
             default: return QString("???");
         }
     }
@@ -84,10 +84,10 @@ QString BitcoinUnits::description(int unit)
     {
         switch(unit)
         {
-            case MinerOM: return QString("TestMinerOMs");
-            case mMinerOM: return QString("Milli-TestMinerOM (1 / 1" THIN_SP_UTF8 "000)");
-            case uMinerOM: return QString("Micro-TestMinerOM (1 / 1" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
-            case duffs: return QString("Ten Nano-TestMinerOM (1 / 100" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
+            case GIN: return QString("TestGINs");
+            case mGIN: return QString("Milli-TestGIN (1 / 1" THIN_SP_UTF8 "000)");
+            case uGIN: return QString("Micro-TestGIN (1 / 1" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
+            case duffs: return QString("Ten Nano-TestGIN (1 / 100" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
             default: return QString("???");
         }
     }
@@ -97,9 +97,9 @@ qint64 BitcoinUnits::factor(int unit)
 {
     switch(unit)
     {
-    case MinerOM:  return 100000000;
-    case mMinerOM: return 100000;
-    case uMinerOM: return 100;
+    case GIN:  return 100000000;
+    case mGIN: return 100000;
+    case uGIN: return 100;
     case duffs: return 1;
     default:   return 100000000;
     }
@@ -109,9 +109,9 @@ int BitcoinUnits::decimals(int unit)
 {
     switch(unit)
     {
-    case MinerOM: return 8;
-    case mMinerOM: return 5;
-    case uMinerOM: return 2;
+    case GIN: return 8;
+    case mGIN: return 5;
+    case uGIN: return 2;
     case duffs: return 0;
     default: return 0;
     }

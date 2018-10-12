@@ -1,7 +1,7 @@
 Description
 ------------
 
-This directory contains data-driven tests for various aspects of MinerOM.
+This directory contains data-driven tests for various aspects of Gincoin.
 
 License
 --------

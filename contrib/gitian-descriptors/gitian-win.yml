@@ -1,5 +1,5 @@
 ---
-name: "minerom-win-1.0.0.0"
+name: "gincoin-win-1.1.0.0"
 enable_cache: true
 suites:
 - "trusty"
@@ -22,10 +22,9 @@ packages:
 - "ca-certificates"
 - "python"
 reference_datetime: "2017-01-01 00:00:00"
-remotes:
-- "url": "https://github.com/worldmint/MinerOM.git"
-  "dir": "minerom"
-files: []
+remotes: []
+files:
+- "gin"
 script: |
   WRAP_DIR=$HOME/wrapped
   HOSTS="x86_64-w64-mingw32 i686-w64-mingw32"
@@ -94,7 +93,7 @@ script: |
 
   export PATH=${WRAP_DIR}:${PATH}
 
-  cd minerom
+  cd gin
   BASEPREFIX=`pwd`/depends
   # Build dependencies for each host
   for i in $HOSTS; do
@@ -105,14 +104,14 @@ script: |
   ./autogen.sh
   CONFIG_SITE=${BASEPREFIX}/`echo "${HOSTS}" | awk '{print $1;}'`/share/config.site ./configure --prefix=/
   make dist
-  SOURCEDIST=`echo mineromcore-*.tar.gz`
+  SOURCEDIST=`echo gincoincore-*.tar.gz`
   DISTNAME=`echo ${SOURCEDIST} | sed 's/.tar.*//'`
 
   # Correct tar file order
   mkdir -p temp
   pushd temp
   tar xf ../$SOURCEDIST
-  find mineromcore-* | sort | tar --no-recursion --mode='u+rw,go+r-w,a+X' --owner=0 --group=0 -c -T - | gzip -9n > ../$SOURCEDIST
+  find gincoincore-* | sort | tar --no-recursion --mode='u+rw,go+r-w,a+X' --owner=0 --group=0 -c -T - | gzip -9n > ../$SOURCEDIST
   mkdir -p $OUTDIR/src
   cp ../$SOURCEDIST $OUTDIR/src
   popd
@@ -132,7 +131,7 @@ script: |
     make ${MAKEOPTS} -C src check-security
     make deploy
     make install DESTDIR=${INSTALLPATH}
-    cp -f mineromcore-*setup*.exe $OUTDIR/
+    cp -f gincoincore-*setup*.exe $OUTDIR/
     cd installed
     mv ${DISTNAME}/bin/*.dll ${DISTNAME}/lib/
     find . -name "lib*.la" -delete

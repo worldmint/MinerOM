@@ -1,5 +1,5 @@
 ---
-name: "minerom-dmg-signer"
+name: "gincoin-dmg-signer"
 suites:
 - "trusty"
 architectures:
@@ -7,11 +7,9 @@ architectures:
 packages:
 - "faketime"
 reference_datetime: "2017-01-01 00:00:00"
-remotes:
-- "url": "https://github.com/worldmint/MinerOM-detached-sigs.git"
-  "dir": "signature"
+remotes: []
 files:
-- "minerom-osx-unsigned.tar.gz"
+- "gincoin-osx-unsigned.tar.gz"
 script: |
   WRAP_DIR=$HOME/wrapped
   mkdir -p ${WRAP_DIR}
@@ -28,10 +26,10 @@ script: |
     chmod +x ${WRAP_DIR}/${prog}
   done
 
-  UNSIGNED=minerom-osx-unsigned.tar.gz
-  SIGNED=minerom-osx-signed.dmg
+  UNSIGNED=gincoin-osx-unsigned.tar.gz
+  SIGNED=gincoin-osx-signed.dmg
 
   tar -xf ${UNSIGNED}
   ./detached-sig-apply.sh ${UNSIGNED} signature/osx
-  ${WRAP_DIR}/genisoimage -no-cache-inodes -D -l -probe -V "MinerOM-Core" -no-pad -r -dir-mode 0755 -apple -o uncompressed.dmg signed-app
+  ${WRAP_DIR}/genisoimage -no-cache-inodes -D -l -probe -V "Gincoin-Core" -no-pad -r -dir-mode 0755 -apple -o uncompressed.dmg signed-app
   ${WRAP_DIR}/dmg dmg uncompressed.dmg ${OUTDIR}/${SIGNED}
