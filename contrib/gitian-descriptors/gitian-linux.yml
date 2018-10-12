@@ -1,5 +1,5 @@
 ---
-name: "minerom-linux-0.12"
+name: "minerom-linux-1.0.0.0"
 enable_cache: true
 suites:
 - "trusty"
