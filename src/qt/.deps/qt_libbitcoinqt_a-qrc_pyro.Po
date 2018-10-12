@@ -1,0 +1,1 @@
+qt/qt_libbitcoinqt_a-qrc_minerom.o: qt/qrc_minerom.cpp
